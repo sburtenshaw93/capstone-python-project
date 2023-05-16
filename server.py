@@ -44,10 +44,12 @@ def budget():
 @app.route("/budget", methods=["POST"])
 def get_budget():
     
+    income = request.json["income_id"]
     bills = request.json["bills_id"]
     other = request.json["other_id"]
     account_history = request.json["account-history"]
-    crud.budget_update(bills, other, account_history)
+    left_over = request.json["left-over"]
+    crud.budget_update(income, bills, other, account_history)
     db.session.commit()
     
 @app.route("/login", methods=["POST"])
