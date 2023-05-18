@@ -18,6 +18,9 @@ def create_budget(income, bills, other, account_history, left_over):
     )
     return budget
 
+def get_budget():
+    return Budget.query.all()
+
 def get_users():
     return User.query.all()
 
@@ -29,4 +32,4 @@ def get_user_by_email(email):
 
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app, db_uri=os.environ['POSTGRES_URI'])
+    connect_to_db(app)

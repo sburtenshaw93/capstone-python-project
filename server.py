@@ -13,10 +13,8 @@ def homepage():
 
 @app.route("/create-account")
 def create_account():
-    
-    create = crud.get_account()
-    
-    return render_template("create-page.html", create=create)
+       
+    return render_template("create-page.html")
 
 @app.route("/users", methods=["POST"])
 def register_user():
@@ -39,7 +37,7 @@ def budget():
     
     budget_list = crud.get_budget()
     
-    return render_template("/budget.html", budget_list=budget_list)
+    return render_template("/budget-page.html", budget_list=budget_list)
 
 @app.route("/budget", methods=["POST"])
 def get_budget():
@@ -68,5 +66,5 @@ def process_login():
 
 
 if __name__ == "__main__":
-    connect_to_db(app, db_uri=os.environ['POSTGRES_URI'])
+    connect_to_db(app)
     app.run(debug = True, port = 6287, host = "localhost")

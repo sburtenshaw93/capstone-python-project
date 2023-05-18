@@ -9,10 +9,10 @@ import server
 os.system('dropdb budget')
 os.system('createdb budget')
 
-model.connect_to_db(server.app, db_uri=os.environ['POSTGRES_URI'])
+model.connect_to_db(server.app)
 model.db.create_all()
 
-with open('data/movies.json') as f:
+with open('data/budget.json') as f:
     budget_data = json.loads(f.read())
 
 budget_in_db = []
