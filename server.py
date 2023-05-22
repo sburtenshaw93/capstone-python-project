@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify, render_template, flash, session, redirect
 from flask_cors import CORS
 import crud
+from jinja2 import StrictUndefined
 from model import connect_to_db, db
 import os
 
 app = Flask(__name__)
 cors = CORS(app)
+app.jinja_env.undefined = StrictUndefined
 
 @app.route("/")
 def homepage():
