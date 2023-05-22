@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "gestalt": "^111.5.13",
+    "gestalt-datepicker": "^111.5.13"
+  }
+}

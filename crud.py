@@ -1,4 +1,4 @@
-from model import db, User, Budget, connect_to_db
+from model import db, User, Budget, Account_History, connect_to_db
 import os 
 
 def create_user(email, password):
@@ -17,6 +17,23 @@ def create_budget(income, bills, other, account_history, left_over):
         left_over=left_over
     )
     return budget
+
+def create_account_history(name, account_number, phone_number, address, notes):
+    
+    history = Account_History(
+        name=name,
+        account_number=account_number,
+        phone_number=phone_number,
+        address=address,
+        notes=notes
+    )
+    return history    
+
+def get_account_history_by_id(history_id):
+    return Account_History.query.get(history_id)
+    
+def get_account_history():
+    return Account_History.query.all()
 
 def get_budget():
     return Budget.query.all()

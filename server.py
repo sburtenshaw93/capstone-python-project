@@ -47,8 +47,8 @@ def get_budget():
     other = request.json["other_id"]
     account_history = request.json["account-history"]
     left_over = request.json["left-over"]
-    crud.budget_update(income, bills, other, account_history)
-    db.session.commit()
+    crud.budget_update(income, bills, other, account_history, left_over)
+    db.session.commit()  
     
 @app.route("/login", methods=["POST"])
 def process_login():
@@ -63,6 +63,25 @@ def process_login():
         session["user_email"] = user.email
         flash(f"Successfully Logged in")
     return redirect("/")    
+
+@app.route("/account_history")
+def account_history():
+    
+    history_list = crud.get_account_history()
+    
+    return render_template("/account_history.html", history_list=history_list)
+
+@app.route("/account_history", methods=["POST"])
+def get_account_history():
+    
+    name = request.json["name_id"]
+    account_number = request.json["account_number_id"]
+    phone_number = request.json["phone_number"]
+    address = request.json["address"]
+    notes = request.json["notes_id"]
+    crud.account_history_update(name, account_number, phone_number, address, notes)
+    db.session.commit()
+    
 
 
 if __name__ == "__main__":

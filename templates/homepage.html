@@ -1,13 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-</head>
+{% extends 'base.html' %}
+{% block title %}Movie Ratings Home{% endblock %}
 
-<body>
-    <h1>Hello There World!</h1>
-</body>
-</html>
+{% block body %}
+  <img src="">
+
+   <ul>
+    <a href="/">How it Works</a>
+    <a href="/">Contact</a>
+  </ul>
+  <form action="/users" method="POST">
+</form>
+<div id="login">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+        <p>
+            Email <input type="text" name="email">
+        </p>
+        <p>
+            Password <input type="password" name="password">
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+        <p class="user-info">
+            <button>Forgot Username</button>
+            <button>Forgot Password</button>
+            <button>Create Account</button>
+        </p>    
+</div>       
+    </form>        
+{% endblock %}
