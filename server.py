@@ -9,9 +9,14 @@ app = Flask(__name__)
 cors = CORS(app)
 app.jinja_env.undefined = StrictUndefined
 
+# This is for the starting point for budget to have the income be zero
+total = 0
+
 @app.route("/")
 def homepage():
     return render_template('homepage.html')
+
+#create account/ users / Login ------------------------
 
 @app.route("/create-account")
 def create_account():
@@ -34,6 +39,22 @@ def register_user():
         flash("Account has been sucessfully created")
     return redirect("/")
 
+@app.route("/login", methods=["POST"])
+def process_login():
+    
+    email = request.form.get("email")
+    password = request.form.get("password")
+    
+    user = crud.get_user_by_email(email)
+    if not user or user.password != password:
+        flash("The email or password you entered was incorrect")
+    else:
+        session["user_email"] = user.email
+        flash(f"Successfully Logged in")
+    return redirect("/")    
+
+# Budget -------------------------------------------
+
 @app.route("/budget")
 def budget():
     
@@ -51,20 +72,22 @@ def get_budget():
     left_over = request.json["left-over"]
     crud.budget_update(income, bills, other, account_history, left_over)
     db.session.commit()  
-    
-@app.route("/login", methods=["POST"])
-def process_login():
-    
-    email = request.form.get("email")
-    password = request.form.get("password")
-    
-    user = crud.get_user_by_email(email)
-    if not user or user.password != password:
-        flash("The email or password you entered was incorrect")
-    else:
-        session["user_email"] = user.email
-        flash(f"Successfully Logged in")
-    return redirect("/")    
+
+@app.route('/add_income', methods=["POST"])
+def add_income():
+    global total   
+    income = int(request.form['income'])
+    total += income
+    return render_template('budget-page.html', total=total)
+ 
+@app.route('/subtract_expense', methods=["POST"])
+def subtract_expense():
+    global total
+    expense = int(request.form['expense'])
+    total = expense
+    return render_template('budget-page.html')       
+
+# account history-------------------------------
 
 @app.route("/account_history")
 def account_history():
