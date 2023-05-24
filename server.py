@@ -10,7 +10,7 @@ cors = CORS(app)
 app.jinja_env.undefined = StrictUndefined
 
 # This is for the starting point for budget to have the income be zero
-total = 0
+total = []
 
 @app.route("/")
 def homepage():
@@ -58,9 +58,31 @@ def process_login():
 @app.route("/budget")
 def budget():
     
+    total = []
     budget_list = crud.get_budget()
     
-    return render_template("/budget-page.html", budget_list=budget_list)
+    return render_template("/budget-page.html", budget_list=budget_list, total=total)
+
+@app.route('/calculate_total', methods=['POST'])
+def calculate_total():
+    income_values = request.form.getlist('income')
+    expense_values = request.form.getlist('expense')
+
+    total = 0
+    for income in income_values:
+        try:
+            total += float(income)
+        except ValueError:
+            pass  # Skip invalid values
+
+    for expense in expense_values:
+        try:
+            total -= float(expense)
+        except ValueError:
+            pass # Skip invalid values
+
+    return render_template('budget-page.html', total=total)
+
 
 @app.route("/budget", methods=["POST"])
 def get_budget():
@@ -69,23 +91,23 @@ def get_budget():
     bills = request.json["bills_id"]
     other = request.json["other_id"]
     account_history = request.json["account-history"]
-    left_over = request.json["left-over"]
-    crud.budget_update(income, bills, other, account_history, left_over)
+    total = request.json["total"]
+    crud.budget_update(income, bills, other, account_history, total)
     db.session.commit()  
 
-@app.route('/add_income', methods=["POST"])
-def add_income():
-    global total   
-    income = int(request.form['income'])
-    total += income
-    return render_template('budget-page.html', total=total)
+# @app.route('/add_income', methods=["POST"])
+# def add_income():
+#     global total   
+#     income = int(request.form['income'])
+#     total += income
+#     return render_template('budget-page.html', total=total)
  
-@app.route('/subtract_expense', methods=["POST"])
-def subtract_expense():
-    global total
-    expense = int(request.form['expense'])
-    total = expense
-    return render_template('budget-page.html')       
+# @app.route('/subtract_expense', methods=["POST"])
+# def subtract_expense():
+#     global total
+#     expense = int(request.form['expense'])
+#     total = expense
+#     return render_template('budget-page.html')       
 
 # account history-------------------------------
 

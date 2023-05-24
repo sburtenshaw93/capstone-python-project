@@ -1,9 +1,56 @@
+<html>
+    <head> 
+        <title>Budget</title>
+    </head>
+    <body>
 {% extends 'base.html' %}
 {% block title %}Budget{% endblock %}
 
 {% block body %}
 <div id="budget">
-    <p>
-        <input
-</div>    
+    <div id="budget">
+        <h1>Budget App</h1>
+        <h2>Current Total: $<span id="total">{{ total }}</span></h2>
+        <form id="budget-form" method="POST" action="/calculate_total">
+            <div id="income-fields">
+                <label for="income">Add Income:</label>
+                <input type="number" name="income" class="income-input">
+            </div>
+            <button type="button" onclick="addIncomeField()">Add Income Field</button>
+            <div id="expense-fields">
+                <label for="expense">Subtract Expense:</label>
+                <input type="number" name="expense" class="expense-input">
+            </div>
+            <button type="button" onclick="addExpenseField()">Add Expense Field</button>
+            <button type="submit">Calculate Total</button>
+        </form>
+    </div>
+    
+    <script>
+        function addIncomeField() {
+            const incomeFields = document.getElementById('income-fields');
+            const newInput = document.createElement('input');
+            newInput.type = 'number';
+            newInput.name = 'income';
+            newInput.className = 'income-input';
+            incomeFields.appendChild(newInput);
+        }
+    
+        function addExpenseField() {
+            const expenseFields = document.getElementById('expense-fields');
+            const newInput = document.createElement('input');
+            newInput.type = 'number';
+            newInput.name = 'expense';
+            newInput.className = 'expense-input';
+            expenseFields.appendChild(newInput);
+        }
+    </script>
+    
+            
+</div> 
+
 {% endblock %}
+
+
+    </body>
+</html>

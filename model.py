@@ -25,14 +25,14 @@ class Budget(db.Model):
     bills = db.Column(db.Integer)
     other = db.Column(db.Integer) 
     account_history = db.Column(db.Text)
-    left_over = db.Column(db.Integer)   
+    total = db.Column(db.Integer)   
     
     def __repr__(self):
-        return f"Monthly income={self.income} left over income={self.left_over}"
+        return f"<Monthly income={self.income} left over income={self.left_over}>"
 
-class Account_History():
+class Account_History(db.Model):
     
-    __tablename__ = "account-history"
+    __tablename__ = "account_history"
     
     history_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.Text)
@@ -41,8 +41,8 @@ class Account_History():
     address = db.Column(db.Text)
     notes = db.Column(db.Text)
     
-    def __repr(self):
-        return f"Account history_id={self.name}"
+    def __repr__(self):
+        return f"<Account history_id={self.name}>"
 
 def connect_to_db(app):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["POSTGRES_URI"]
