@@ -10,7 +10,9 @@ cors = CORS(app)
 app.jinja_env.undefined = StrictUndefined
 
 # This is for the starting point for budget to have the income be zero
-total = []
+income = []
+expenses_total = []
+remaining_balance = []
 
 @app.route("/")
 def homepage():
@@ -58,30 +60,66 @@ def process_login():
 @app.route("/budget")
 def budget():
     
-    total = []
+    user_input = []
+    expense_user_input = []
+    incomes = []
+    income = 0
+    expenses_total = 0
+    remaining_balance = 0
     budget_list = crud.get_budget()
     
-    return render_template("/budget-page.html", budget_list=budget_list, total=total)
+    return render_template("/budget-page.html", 
+                           budget_list=budget_list, 
+                           income=income, 
+                           expenses_total=expenses_total, 
+                           user_input=user_input,
+                           remaining_balance=remaining_balance,
+                           incomes=incomes,
+                           expense_user_input=expense_user_input
+                           )
 
-@app.route('/calculate_total', methods=['POST'])
+@app.route('/calculate_total', methods=['GET', 'POST'])
 def calculate_total():
-    income_values = request.form.getlist('income')
-    expense_values = request.form.getlist('expense')
-
-    total = 0
-    for income in income_values:
+    expense_user_input = request.form.get('expense_user_input')
+    user_input = request.form.get('user_input')
+    incomes = []
+    income = request.form.get('income')
+    expenses_total = request.form.get('expenses')
+    remaining_balance = request.form.get('remaining_balance')
+    if income and expenses_total:
         try:
-            total += float(income)
+                income = float(income)
+                expenses_total = float(expenses_total)
+                remaining_balance = income - expenses_total
         except ValueError:
-            pass  # Skip invalid values
-
-    for expense in expense_values:
-        try:
-            total -= float(expense)
-        except ValueError:
-            pass # Skip invalid values
-
-    return render_template('budget-page.html', total=total)
+                error_message = "Invalid input. Please enter numeric values."
+                return render_template('budget-page.html', error_message=error_message)        
+    else:
+        error_message = "Please enter both income and expenses."
+        return render_template('budget-page.html', 
+                                error_message=error_message, 
+                                income=income,
+                                incomes=incomes,
+                                expenses_total=expenses_total,
+                                remaining_balance=remaining_balance, 
+                                user_input=user_input,
+                                expense_user_input=expense_user_input)
+    if request.method == 'POST':
+            
+                return render_template('budget-page.html', 
+                                       remaining_balance=remaining_balance, 
+                                       income=income, 
+                                       expenses_total=expenses_total,
+                                       user_input=user_input,
+                                       expense_user_input=expense_user_input,
+                                       incomes=incomes)
+    return render_template('budget-page.html', 
+                                       remaining_balance=remaining_balance, 
+                                       income=income, 
+                                       expenses_total=expenses_total,
+                                       user_input=user_input,
+                                       expense_user_input=expense_user_input,
+                                       incomes=incomes)    
 
 
 @app.route("/budget", methods=["POST"])
@@ -93,21 +131,7 @@ def get_budget():
     account_history = request.json["account-history"]
     total = request.json["total"]
     crud.budget_update(income, bills, other, account_history, total)
-    db.session.commit()  
-
-# @app.route('/add_income', methods=["POST"])
-# def add_income():
-#     global total   
-#     income = int(request.form['income'])
-#     total += income
-#     return render_template('budget-page.html', total=total)
- 
-# @app.route('/subtract_expense', methods=["POST"])
-# def subtract_expense():
-#     global total
-#     expense = int(request.form['expense'])
-#     total = expense
-#     return render_template('budget-page.html')       
+    db.session.commit()        
 
 # account history-------------------------------
 

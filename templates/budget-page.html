@@ -1,6 +1,7 @@
 <html>
     <head> 
         <title>Budget</title>
+        <script src="{{ url_for('static', filename='index.js') }}"></script>
     </head>
     <body>
 {% extends 'base.html' %}
@@ -10,47 +11,37 @@
 <div id="budget">
     <div id="budget">
         <h1>Budget App</h1>
-        <h2>Current Total: $<span id="total">{{ total }}</span></h2>
         <form id="budget-form" method="POST" action="/calculate_total">
             <div id="income-fields">
-                <label for="income">Add Income:</label>
-                <input type="number" name="income" class="income-input">
+                {% if incomes | length > 0 %}
+                    ()
+                {% else %}     
+                    <label for="income">Income:</label>
+                    <input type="text" name="user_input" value="{{ user_input or '' }}" placeholder="Enter an amount">
+                    <input type="number" name="income" class="income-input" value="{{ income or '' }}">
+                    <button type="button" onclick="deleteIncome()">Delete</button>
+                {% endif %}
             </div>
-            <button type="button" onclick="addIncomeField()">Add Income Field</button>
+            <button type="button" onclick="addIncomeField()">Add</button>
             <div id="expense-fields">
                 <label for="expense">Subtract Expense:</label>
-                <input type="number" name="expense" class="expense-input">
+                <input type="text" name="expense_user_input" value="{{ expense_user_input or '' }}" placeholder="Please enter name">
+                <input type="number" name="expenses" class="expense-input" value="{{ expenses_total or '' }}">
+                <button type="button" onclick="deleteExpense()">Delete</button>
             </div>
-            <button type="button" onclick="addExpenseField()">Add Expense Field</button>
-            <button type="submit">Calculate Total</button>
+            <div id="user_input_expenses">    
+                <button type="button" onclick="addExpenseField()">Add</button>
+            </div>
+            <div id="remaining_balance">
+            </div>    
+                <h2>Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
+            <button type="submit">Calculate Remaining Balance</button>
         </form>
-    </div>
-    
-    <script>
-        function addIncomeField() {
-            const incomeFields = document.getElementById('income-fields');
-            const newInput = document.createElement('input');
-            newInput.type = 'number';
-            newInput.name = 'income';
-            newInput.className = 'income-input';
-            incomeFields.appendChild(newInput);
-        }
-    
-        function addExpenseField() {
-            const expenseFields = document.getElementById('expense-fields');
-            const newInput = document.createElement('input');
-            newInput.type = 'number';
-            newInput.name = 'expense';
-            newInput.className = 'expense-input';
-            expenseFields.appendChild(newInput);
-        }
-    </script>
-    
-            
+    </div>           
 </div> 
 
 {% endblock %}
 
-
+        
     </body>
 </html>
