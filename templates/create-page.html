@@ -6,27 +6,17 @@
 <h2>Create an Account</h2>
 <form action="/users" method="POST">
     <div class="create-account">
-        <p>
-            Username <input type="text" name="username">
-        </p>
-        <p>
-            Email <input type="text" name="email">
-        </p>
-        <p>
-            Verify Email <input type="text" name="verify-email">
-        </p>
-        <p>
-            Password <input type="password" name="password">
-        </p>
-        <p>
-            Verify Password <input type="text" name="verify-password">
-        </p>
-        <p>
-            Phone Number <input type="text" name="phone-number">
-        </p>
-        <p>   
-         <input type="submit">
-        </p>
+        <div class="form-container">
+            <h1>Registration</h1>
+            <form action="/create-page" method="POST">
+                {{ registration_form.username.label }}
+                {{ registration_form.username(id="username") }}
+                {{ registration_form.password.label }}
+                {{ registration_form.password(id="password") }}
+                {{ registration_form.confirm_password.label }}
+                {{ registration_form.confirm_password(id="password") }}
+                {{ registration_form.submit }}
+        </div>
     </div>
 
 {% endblock %}  

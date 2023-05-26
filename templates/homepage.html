@@ -16,19 +16,12 @@
        {{ login_form.username.label }}
        {{ login_form.username(id="username") }}
        {{ login_form.password.label }}
-       {{ login_form.passowrd(id="password") }}
-       {{ login_form.submit }}  
+       {{ login_form.password(id="password") }}
+       {{ login_form.remember_me.label }}
+       {{ login_form.remember_me }}
+       {{ login_form.submit }}
+       <button id="create-account" type="button" onclick="create-account" href="http://localhost:6287/create-page/">Register</button>  
     </form>        
 </div> 
-<div class="form-container">
-    <h1>Registration</h1>
-    <form action="/create-page" method="POST">
-        {{ registration_form.username.label }}
-        {{ registration_form.username(id="username") }}
-        {{ registration_form.password.label }}
-        {{ registration_form.password(id="password") }}
-        {{ registration_form.confirm_password.label }}
-        {{ registration_form.confirm_password(id="password") }}
-        {{ registration_form.submit }}
-</div>         
+         
 {% endblock %}

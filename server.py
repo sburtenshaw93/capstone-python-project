@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, flash, session, redirect, url_for
-from flask_login import RegistrationForm, LoginForm, LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required
+from forms import RegistrationForm, LoginForm
 from flask_cors import CORS
-from flask_login import LoginManager
 from datetime import timedelta
 import crud
 from jinja2 import StrictUndefined
@@ -18,7 +18,7 @@ login_manager.init_app(app)
 
 # This is for the starting point for budget to have the income be zero
 income = []
-expenses_total = []
+expense = []
 remaining_balance = []
 
 
@@ -31,8 +31,8 @@ def homepage():
 
 @app.route("/homepage")
 @login_required
-def homepage():
-    return render_template("home-page.html")
+def homepage2():
+    return render_template("homepage.html")
 
 #create account/ users / Login ------------------------
 
@@ -60,6 +60,7 @@ def register_user():
 @app.route("/login", methods=["POST"])
 def login():
     form = LoginForm()
+    user = None
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -68,12 +69,11 @@ def login():
         user = User.query.filter_by(username=username).first()
     
     if user and user.check_password(password):
-        if user.check_password(password):
             login_user(user, remember=remember_me, duration=timedelta(days=30))
             flash("You logged in successfully.", "success")
             return redirect("/budget")
-        else:
-            flash("Invaild username or password", "error")
+    else:
+        flash("Invaild username or password", "error")
     
     return redirect("/")
 
@@ -82,9 +82,12 @@ def logout():
     logout_user()
     return redirect("/")   
 
-@login_manager.user_Loader
+@login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    try:
+        return User.query.get(int(user_id))
+    except:
+        return None
 
 # Budget -------------------------------------------
 
@@ -92,9 +95,9 @@ def load_user(user_id):
 def budget():
     
     user_input = []
-    expense_user_input = []
+    user_expense_input = []
     income = 0
-    expenses_total = 0
+    expense = 0
     remaining_balance = 0
     budget_list = crud.get_budget()
     
@@ -106,10 +109,10 @@ def budget():
     return render_template("/budget-page.html", 
                            budget_list=budget_list, 
                            income=income, 
-                           expenses_total=expenses_total, 
+                           expense=expense, 
                            user_input=user_input,
                            remaining_balance=remaining_balance,
-                           expense_user_input=expense_user_input
+                           user_expense_input=user_expense_input
                            )
 
 @app.route('/calculate_total', methods=['POST'])
