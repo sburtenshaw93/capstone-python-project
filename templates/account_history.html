@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Budget{% endblock %}
+{% block title %}Account Information{% endblock %}
 
 {% block body %}
-<div id="budget">
-    <p>
-        <input
-</div>    
+    <div id="account_information">
+    
+        <input type="text" name="account-name" placeholder="Please insitution name">
+        <input type="text" name="account-number" placeholder="Plase enter account number">
+        <input type="text" name="account-phone-number" placeholder="Enter phone number (Optional)">
+        <input type="text" name="account-address" placeholder="Enter address (Optional)">
+        <input type="text" name="account-notes" placeholder="Enter notes">
+        <button type="button" name="submit-button-account-information" onclick="submit-account-information">Save</button>
+    </div>        
 {% endblock %}

@@ -21,14 +21,18 @@ class Budget(db.Model):
     __tablename__ = "budgets"
     
     budget_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_income_input = db.Column(db.Text)
     income = db.Column(db.Integer)
-    bills = db.Column(db.Integer)
+    user_expense_input = db.Column(db.Text)
+    expense = db.Column(db.Integer)
     other = db.Column(db.Integer) 
     account_history = db.Column(db.Text)
-    total = db.Column(db.Integer)   
+    total = db.Column(db.Integer)
+    remaining_balance = db.Column(db.Integer)
+    type = db.Column(db.Text)   
     
     def __repr__(self):
-        return f"<Monthly income={self.income} left over income={self.left_over}>"
+        return f"<Monthly income={self.income} left over income={self.remaining_balance}>"
 
 class Account_History(db.Model):
     

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, flash, session, redirect
+from flask import Flask, request, jsonify, render_template, flash, session, redirect, url_for
 from flask_cors import CORS
 import crud
 from jinja2 import StrictUndefined
@@ -57,81 +57,49 @@ def process_login():
 
 # Budget -------------------------------------------
 
-@app.route("/budget")
+@app.route("/budget", methods=["GET", "DELETE"])
 def budget():
     
     user_input = []
     expense_user_input = []
-    incomes = []
     income = 0
     expenses_total = 0
     remaining_balance = 0
     budget_list = crud.get_budget()
     
+    for budget in budget_list:
+        if budget.type == "income":
+            remaining_balance = remaining_balance + budget.income
+        else:
+            remaining_balance = remaining_balance - budget.expense      
     return render_template("/budget-page.html", 
                            budget_list=budget_list, 
                            income=income, 
                            expenses_total=expenses_total, 
                            user_input=user_input,
                            remaining_balance=remaining_balance,
-                           incomes=incomes,
                            expense_user_input=expense_user_input
                            )
 
-@app.route('/calculate_total', methods=['GET', 'POST'])
+@app.route('/calculate_total', methods=['POST'])
 def calculate_total():
-    expense_user_input = request.form.get('expense_user_input')
-    user_input = request.form.get('user_input')
-    incomes = []
-    income = request.form.get('income')
-    expenses_total = request.form.get('expenses')
-    remaining_balance = request.form.get('remaining_balance')
-    if income and expenses_total:
-        try:
-                income = float(income)
-                expenses_total = float(expenses_total)
-                remaining_balance = income - expenses_total
-        except ValueError:
-                error_message = "Invalid input. Please enter numeric values."
-                return render_template('budget-page.html', error_message=error_message)        
-    else:
-        error_message = "Please enter both income and expenses."
-        return render_template('budget-page.html', 
-                                error_message=error_message, 
-                                income=income,
-                                incomes=incomes,
-                                expenses_total=expenses_total,
-                                remaining_balance=remaining_balance, 
-                                user_input=user_input,
-                                expense_user_input=expense_user_input)
-    if request.method == 'POST':
-            
-                return render_template('budget-page.html', 
-                                       remaining_balance=remaining_balance, 
-                                       income=income, 
-                                       expenses_total=expenses_total,
-                                       user_input=user_input,
-                                       expense_user_input=expense_user_input,
-                                       incomes=incomes)
-    return render_template('budget-page.html', 
-                                       remaining_balance=remaining_balance, 
-                                       income=income, 
-                                       expenses_total=expenses_total,
-                                       user_input=user_input,
-                                       expense_user_input=expense_user_input,
-                                       incomes=incomes)    
-
-
-@app.route("/budget", methods=["POST"])
-def get_budget():
-    
-    income = request.json["income_id"]
-    bills = request.json["bills_id"]
-    other = request.json["other_id"]
-    account_history = request.json["account-history"]
-    total = request.json["total"]
-    crud.budget_update(income, bills, other, account_history, total)
-    db.session.commit()        
+    new_incomes = request.form.getlist('new-income')
+    new_user_income_inputs = request.form.getlist('new_user_input')
+    for i in range(len(new_incomes)):
+        new_income = new_incomes[i]
+        new_user_income_input = new_user_income_inputs[i]
+        crud.create_budget(new_income, new_user_income_input, None, None, None, "", 0, "income")
+    new_expenses = request.form.getlist('new-expense')
+    new_user_expense_inputs = request.form.getlist('new_expense_user_input')
+    for i in range(len(new_expenses)):
+        new_expense = new_expenses[i]
+        new_user_expense_input = new_user_expense_inputs[i]
+        crud.create_budget(None, None, new_expense, new_user_expense_input, None, "", 0, "expense")     
+    return redirect(url_for("budget"))
+     
+@app.route('/delete-budget/<budget_id>', methods=["GET", "DELETE"])
+def delete_budget(budget_id):
+    crud.delete_budget(budget_id) 
 
 # account history-------------------------------
 

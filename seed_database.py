@@ -45,16 +45,21 @@ with server.app.app_context():
     budget_in_db = []
 
     for budget in budget_data:
-        income, bills, other, account_history, total = (
+        income, expense, user_expense_input, other, account_history, total, user_income_input, type, remaining_balance = (
             budget["income"],
-            budget["bills"],
+            budget["user_income_input"],
+            budget["expense"],
+            budget["user_expense_input"],
             budget["other"],
             budget["account_history"],
-            budget["total"]
+            budget["total"],
+            budget["remaining_balance"],
+            budget["type"]
+            
         )
         last_updated = datetime.strptime(budget["account_changed"], "%Y-%m-%d")
         
-        db_budget = crud.create_budget(income, bills, other, account_history, last_updated)
+        db_budget = crud.create_budget(income, user_income_input, expense, user_expense_input, other, account_history, last_updated, type)
         budget_in_db.append(db_budget)
 
     print("Adding changes budget")     

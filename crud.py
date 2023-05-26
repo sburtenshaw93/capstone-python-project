@@ -7,16 +7,28 @@ def create_user(email, password):
     
     return user
 
-def create_budget(income, bills, other, account_history, total):
+def create_budget(income, user_income_input, expense, user_expense_input, other, account_history, total, type):
     
     budget = Budget(
         income=income,
-        bills=bills, 
+        user_income_input=user_income_input,
+        expense=expense,
+        user_expense_input=user_expense_input, 
         other=other,
         account_history=account_history,
-        total=total
+        total=total,
+        type=type
+        
     )
+    db.session.add(budget)
+    db.session.commit()
     return budget
+
+def delete_budget(budget_id):
+    budget = Budget.query.get(budget_id)
+    db.session.delete(budget)
+    db.session.commit()
+
 
 def create_account_history(name, account_number, phone_number, address, notes):
     
