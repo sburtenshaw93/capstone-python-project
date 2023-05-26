@@ -1,22 +1,38 @@
 from flask import Flask, request, jsonify, render_template, flash, session, redirect, url_for
+from flask_login import RegistrationForm, LoginForm, LoginManager, login_user, logout_user, login_required
 from flask_cors import CORS
+from flask_login import LoginManager
+from datetime import timedelta
 import crud
 from jinja2 import StrictUndefined
-from model import connect_to_db, db
+from model import connect_to_db, db, User
 import os
+
 
 app = Flask(__name__)
 cors = CORS(app)
+app.config['SECRET_KEY'] = 'your_secret_key'
 app.jinja_env.undefined = StrictUndefined
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 # This is for the starting point for budget to have the income be zero
 income = []
 expenses_total = []
 remaining_balance = []
 
+
 @app.route("/")
 def homepage():
-    return render_template('homepage.html')
+    login_form = LoginForm()
+    registration_form = RegistrationForm()
+    
+    return render_template('homepage.html', login_form=login_form, registration_form=registration_form)
+
+@app.route("/homepage")
+@login_required
+def homepage():
+    return render_template("home-page.html")
 
 #create account/ users / Login ------------------------
 
@@ -42,18 +58,33 @@ def register_user():
     return redirect("/")
 
 @app.route("/login", methods=["POST"])
-def process_login():
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        remember_me = form.remember_me.data
     
-    email = request.form.get("email")
-    password = request.form.get("password")
+        user = User.query.filter_by(username=username).first()
     
-    user = crud.get_user_by_email(email)
-    if not user or user.password != password:
-        flash("The email or password you entered was incorrect")
-    else:
-        session["user_email"] = user.email
-        flash(f"Successfully Logged in")
-    return redirect("/")    
+    if user and user.check_password(password):
+        if user.check_password(password):
+            login_user(user, remember=remember_me, duration=timedelta(days=30))
+            flash("You logged in successfully.", "success")
+            return redirect("/budget")
+        else:
+            flash("Invaild username or password", "error")
+    
+    return redirect("/")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    logout_user()
+    return redirect("/")   
+
+@login_manager.user_Loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 # Budget -------------------------------------------
 

@@ -13,20 +13,22 @@
 <div id="login">
     <h2>Login</h2>
     <form action="/login" method="POST">
-        <p>
-            Email <input type="text" name="email">
-        </p>
-        <p>
-            Password <input type="password" name="password">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-        <p class="user-info">
-            <button>Forgot Username</button>
-            <button>Forgot Password</button>
-            <button>Create Account</button>
-        </p>    
-</div>       
+       {{ login_form.username.label }}
+       {{ login_form.username(id="username") }}
+       {{ login_form.password.label }}
+       {{ login_form.passowrd(id="password") }}
+       {{ login_form.submit }}  
     </form>        
+</div> 
+<div class="form-container">
+    <h1>Registration</h1>
+    <form action="/create-page" method="POST">
+        {{ registration_form.username.label }}
+        {{ registration_form.username(id="username") }}
+        {{ registration_form.password.label }}
+        {{ registration_form.password(id="password") }}
+        {{ registration_form.confirm_password.label }}
+        {{ registration_form.confirm_password(id="password") }}
+        {{ registration_form.submit }}
+</div>         
 {% endblock %}

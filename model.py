@@ -13,6 +13,14 @@ class User(db.Model):
     username = db.Column(db.Text, unique=True)
     phone_number = db.Column(db.Integer)
     
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+    def check_password(self, password):
+        return password == self.password
+    def get_id(self):
+        return self.user_id    
+    
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 

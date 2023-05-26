@@ -3,12 +3,13 @@
 
 {% block body %}
     <div id="account_information">
-    
-        <input type="text" name="account-name" placeholder="Please insitution name">
-        <input type="text" name="account-number" placeholder="Plase enter account number">
-        <input type="text" name="account-phone-number" placeholder="Enter phone number (Optional)">
-        <input type="text" name="account-address" placeholder="Enter address (Optional)">
-        <input type="text" name="account-notes" placeholder="Enter notes">
-        <button type="button" name="submit-button-account-information" onclick="submit-account-information">Save</button>
+        <form method="POST" action="/process">
+            <input type="text" name="account-name" placeholder="Please insitution name">
+            <input type="text" name="account-number" placeholder="Plase enter account number">
+            <input type="text" name="account-phone-number" value="{{ account-phone-number|default('') }}" placeholder="Enter phone number (Optional)">
+            <input type="text" name="account-address" value="{{ account-address|default('') }}" placeholder="Enter address (Optional)">
+            <input type="text" name="account-notes" placeholder="Enter notes">
+            <button type="button" name="submit-button-account-information" onclick="submit-account-information">Save</button>
+        </form>
     </div>        
 {% endblock %}
