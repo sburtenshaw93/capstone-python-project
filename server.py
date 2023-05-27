@@ -25,9 +25,10 @@ remaining_balance = []
 @app.route("/")
 def homepage():
     login_form = LoginForm()
-    registration_form = RegistrationForm()
     
-    return render_template('homepage.html', login_form=login_form, registration_form=registration_form)
+    return render_template('homepage.html', login_form=login_form )
+
+
 
 @app.route("/homepage")
 @login_required
@@ -36,26 +37,34 @@ def homepage2():
 
 #create account/ users / Login ------------------------
 
-@app.route("/create-account")
-def create_account():
-       
-    return render_template("create-page.html")
+@app.route("/create_page", methods=["GET","POST"])
+def create_page():
+    form = RegistrationForm()
+    if request.method == "POST":
+        
+        if form.validate_on_submit():
+            redirect(url_for("budget"))
+    return render_template("create-page.html", registration_form=form)
+    
 
 @app.route("/users", methods=["POST"])
 def register_user():
 
-    email = request.form.get("email")
+    username = request.form.get("username")
     password = request.form.get("password")
+    email = request.form.get("email")
+    phone_number = request.form.get("phone number")
 
     user = crud.get_user_by_email(email)
     if user:
         flash("Can't make an account with this email. Please try again.")
+        
     else:
-        user = crud.create_user(email, password)
+        user = crud.create_user(username, password, email, phone_number)
         db.session.add(user)
         db.session.commit()
         flash("Account has been sucessfully created")
-    return redirect("/")
+        return redirect("budget")
 
 @app.route("/login", methods=["POST"])
 def login():

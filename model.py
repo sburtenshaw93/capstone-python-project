@@ -13,9 +13,11 @@ class User(db.Model):
     username = db.Column(db.Text, unique=True)
     phone_number = db.Column(db.Integer)
     
-    def __init__(self, username, password):
+    def __init__(self, username, password, email, phone_number):
         self.username = username
         self.password = password
+        self.email = email
+        self.phone_number = phone_number
     def check_password(self, password):
         return password == self.password
     def get_id(self):

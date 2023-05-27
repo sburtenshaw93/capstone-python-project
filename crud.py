@@ -1,9 +1,9 @@
 from model import db, User, Budget, Account_History, connect_to_db
 import os 
 
-def create_user(email, password):
+def create_user(username, password, email, phone_number):
     
-    user = User(email=email, password=password)
+    user = User(username=username, password=password, email=email, phone_number=phone_number)
     
     return user
 
