@@ -48,3 +48,18 @@ function addExpenseField(event) {
     expenseDeleteButton.onclick=deleteExpense
     expenseFields.appendChild(expenseDeleteButton);
 }
+
+function registrationButton()
+    {window.location.href = 'http://localhost:6287/create_page'}
+
+function saveButtonAccountHistory()
+    {window.location.href = 'http://localhost:6287/budget'}
+
+function accountInformationButton(event){
+    event.preventDefault()
+    window.location.href = `http://localhost:6287/account-history/${event.target.dataset.accountHistoryId}`
+}
+
+function goToNewAccountHistory() {
+    window.location.href = 'http://localhost:6287/account_history'
+}

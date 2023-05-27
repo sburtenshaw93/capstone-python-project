@@ -1,7 +1,6 @@
 <html>
     <head> 
         <title>Budget</title>
-        <script src="{{ url_for('static', filename='index.js') }}"></script>
     </head>
     <body>
 {% extends 'base.html' %}
@@ -23,9 +22,9 @@
                         {% endif %}
                    {% endfor %}
                 {% else %}
-                    <label for="income">Income:</label>
-                    <input type="text" name="user_input" value="{{ user_input or '' }}" placeholder="Please enter name">
-                    <input type="number" name="income" class="income-input" value="{{ income or '' }}" placeholder="Please enter amount">
+                    <label for="income"> Income:</label>
+                    <input type="text" name="new_user_input" value="{{ user_input or '' }}" placeholder="Please enter name">
+                    <input type="number" name="new-income" class="income-input" value="{{ income or '' }}" placeholder="Please enter amount">
                 {% endif %}
             </div>
             <button type="button" onclick="addIncomeField()">Add</button>
@@ -35,27 +34,37 @@
                         {% if expense_loop.type == 'expense' %}
                             <label for="expense">Expense:</label>
                             <input type="text" name="user_expense_input_{{ loop.index }}" value="{{ expense_loop.user_expense_input or '' }}" placeholder="Please enter name">
-                            <input type="number" name="expense" class="expense-input" value="{{ expense_loop.expense or '' }}" placeholder="Please enter amount">
+                            <input type="number" name="expense_{{ loop.index }}" class="expense-input" value="{{ expense_loop.expense or '' }}" placeholder="Please enter amount">
                             <button type="button" onclick="deleteBudget(event)" data-budget-id="{{ expense_loop.budget_id }}">Delete</button>
-                            <button class="account_history_button" href="http://localhost:6287/account_history/">Add Account Information</button>
+                            {% if expense_loop.account_history is not none %}
+                                <button type="button" data-account-history-id="{{ expense_loop.account_history }}"  onclick"accountInformationButton(event)">Account Information</button>
+                            {% endif %}
                         {% endif %}    
                     {% endfor %}
                 {% else %}
                     <label for="expense">Expense:</label>
-                    <input type="text" name="user_input" value="{{ user_expense_input or '' }}" placeholder="Please enter name">
-                    <input type="number" name="expense" class="expense-input" value="{{ expense or '' }}" placeholder="Please enter amount">
+                    <input type="text" name="new_expense_user_input" value="{{ user_expense_input or '' }}" placeholder="Please enter name">
+                    <input type="number" name="new-expense" class="expense-input" value="{{ expense or '' }}" placeholder="Please enter amount">
                     
                 {% endif %}
             </div>
             <div id="user_input_expenses">    
                 <button type="button" onclick="addExpenseField()">Add</button>
             </div>
+            <div id="account_button">
+                <button type="button" onclick="goToNewAccountHistory()" class="account_history_button">Add Account Information</button>
+            </div>     
             <div id="remaining_balance">
-            </div>    
                 <h2>Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
-            <button type="submit">Calculate Remaining Balance</button>
+                <button type="submit">Calculate Remaining Balance</button>
+            </div>    
         </form>
-    </div>           
+    </div>
+    <div class="navbar">
+        <form action="{{ url_for("logout") }}" method="POST">
+            <button type="submit">Logout</button>
+        </form>    
+    </div>               
 </div> 
 
 {% endblock %}

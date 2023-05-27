@@ -88,8 +88,8 @@ def login():
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
-    logout_user()
-    return redirect("/")   
+    session.clear()
+    return redirect(url_for("homepage"))   
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -128,6 +128,7 @@ def budget():
 def calculate_total():
     new_incomes = request.form.getlist('new-income')
     new_user_income_inputs = request.form.getlist('new_user_input')
+    print(new_user_income_inputs)
     for i in range(len(new_incomes)):
         new_income = new_incomes[i]
         new_user_income_input = new_user_income_inputs[i]
@@ -146,10 +147,16 @@ def delete_budget(budget_id):
 
 # account history-------------------------------
 
-@app.route("/account_history")
+@app.route("/account_history", methods=["GET"])
 def account_history():
-    
     history_list = crud.get_account_history()
+    
+    return render_template("/account_history.html", history_list=history_list)
+
+@app.route("/account_history/<account_history_id>", methods=["GET"])
+def account_history_information(account_history_id):
+    
+    history_list = crud.get_account_history_by_id(account_history_id)
     
     return render_template("/account_history.html", history_list=history_list)
 
