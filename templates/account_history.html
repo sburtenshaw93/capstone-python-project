@@ -3,13 +3,24 @@
 
 {% block body %}
     <div id="account_information">
-        <form method="POST" action="/process">
-            <input type="text" name="account_name" placeholder="Please insitution name">
-            <input type="text" name="account_number" placeholder="Plase enter account number">
-            <input type="text" name="account_phone_number" value="{{ account_phone_number|default('') }}" placeholder="Enter phone number (Optional)">
-            <input type="text" name="account_address" value="{{ account_address|default('') }}" placeholder="Enter address (Optional)">
-            <input type="text" name="account_notes" placeholder="Enter notes">
-            <button type="button" name="submit_button_account_information" onclick="saveButtonAccountHistory()">Save</button>
-        </form>
+        {% if budget_id %}
+            <form method="POST" action="/account_information/{{ budget_id }}">
+                <input type="text" name="account_name" placeholder="Please insitution name">
+                <input type="number" name="account_number" placeholder="Plase enter account number">
+                <input type="number" name="account_phone_number" placeholder="Enter phone number (Optional)">
+                <input type="text" name="account_address" placeholder="Enter address (Optional)">
+                <input type="text" name="account_notes" placeholder="Enter notes">
+                <button type="submit" name="submit_button_account_information">Save</button>
+            </form>
+        {% else %}
+            <form method="POST" action="/account_update/{{ history_list.history_id }}">
+                <input type="text" name="account_name" value="{{ history_list.name }}" placeholder="Please insitution name">
+                <input type="number" name="account_number" value="{{ history_list.account_number }}" placeholder="Plase enter account number">
+                <input type="number" name="account_phone_number" value="{{ history_list.phone_number|default('') }}" placeholder="Enter phone number (Optional)">
+                <input type="text" name="account_address" value="{{ history_list.address|default('') }}" placeholder="Enter address (Optional)">
+                <input type="text" name="account_notes" value="{{ history_list.notes|default('') }}" placeholder="Enter notes">
+                <button type="submit" name="submit_button_account_information">Save</button>
+            </form>
+        {% endif %}
     </div>        
 {% endblock %}

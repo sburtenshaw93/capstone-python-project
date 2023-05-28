@@ -35,7 +35,7 @@ def homepage():
 def homepage2():
     return render_template("homepage.html")
 
-#create account/ users / Login ------------------------
+#create account/ users / create page ------------------------
 
 @app.route("/create_page", methods=["GET","POST"])
 def create_page():
@@ -65,6 +65,7 @@ def register_user():
         db.session.commit()
         flash("Account has been sucessfully created")
         return redirect("budget")
+#------------------Login------------------------------
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -147,29 +148,39 @@ def delete_budget(budget_id):
 
 # account history-------------------------------
 
-@app.route("/account_history", methods=["GET"])
-def account_history():
-    history_list = crud.get_account_history()
+@app.route("/account_history/<budget_id>", methods=["GET"])
+def account_history(budget_id):
     
-    return render_template("/account_history.html", history_list=history_list)
+    return render_template("/account_history.html", history_list=[], budget_id=budget_id)
 
-@app.route("/account_history/<account_history_id>", methods=["GET"])
+@app.route("/account_history_information/<account_history_id>", methods=["GET"])
 def account_history_information(account_history_id):
     
     history_list = crud.get_account_history_by_id(account_history_id)
     
-    return render_template("/account_history.html", history_list=history_list)
+    return render_template("/account_history.html", history_list=history_list, budget_id=None)
 
-@app.route("/account_history", methods=["POST"])
-def get_account_history():
-    
-    name = request.json["name_id"]
-    account_number = request.json["account_number_id"]
-    phone_number = request.json["phone_number"]
-    address = request.json["address"]
-    notes = request.json["notes_id"]
-    crud.account_history_update(name, account_number, phone_number, address, notes)
+@app.route("/account_information/<budget_id>", methods=["POST"])
+def create_account_history(budget_id):
+    name = request.form.get("account_name")
+    account_number = request.form.get("account_number")
+    phone_number = request.form.get("account_phone_number")
+    address = request.form.get("account_address")
+    notes = request.form.get("account_notes")
+    print(name,account_number,phone_number,address,notes)
+    crud.create_account_history(name, account_number, phone_number, address, notes, budget_id)
+    return redirect(url_for("budget"))
+
+@app.route("/account_update/<account_history>", methods=["POST"])
+def update_account_history(account_history):
+    name = request.form.get("account_name")
+    account_number = request.form.get("account_number")
+    phone_number = request.form.get("account_phone_number")
+    address = request.form.get("account_address")
+    notes = request.form.get("account_notes")
+    crud.account_history_update(account_history, name, account_number, phone_number, address, notes)
     db.session.commit()
+    return redirect(url_for("budget"))
     
 
 

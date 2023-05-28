@@ -36,8 +36,10 @@
                             <input type="text" name="user_expense_input_{{ loop.index }}" value="{{ expense_loop.user_expense_input or '' }}" placeholder="Please enter name">
                             <input type="number" name="expense_{{ loop.index }}" class="expense-input" value="{{ expense_loop.expense or '' }}" placeholder="Please enter amount">
                             <button type="button" onclick="deleteBudget(event)" data-budget-id="{{ expense_loop.budget_id }}">Delete</button>
-                            {% if expense_loop.account_history is not none %}
-                                <button type="button" data-account-history-id="{{ expense_loop.account_history }}"  onclick"accountInformationButton(event)">Account Information</button>
+                            {% if expense_loop.account_history %}
+                                <button type="button" data-account-history-id="{{ expense_loop.account_history }}" onclick="accountInformationButton(event)">View Account Information</button>
+                            {% else %}
+                                <button type="button" data-budget-id="{{ expense_loop.budget_id }}" onclick="accountInformationButton(event, true)">Create Account Information</button>
                             {% endif %}
                         {% endif %}    
                     {% endfor %}
@@ -51,9 +53,6 @@
             <div id="user_input_expenses">    
                 <button type="button" onclick="addExpenseField()">Add</button>
             </div>
-            <div id="account_button">
-                <button type="button" onclick="goToNewAccountHistory()" class="account_history_button">Add Account Information</button>
-            </div>     
             <div id="remaining_balance">
                 <h2>Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
                 <button type="submit">Calculate Remaining Balance</button>

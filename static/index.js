@@ -49,15 +49,23 @@ function addExpenseField(event) {
     expenseFields.appendChild(expenseDeleteButton);
 }
 
+function addMoreAccountInformation() {
+
+}
+
 function registrationButton()
     {window.location.href = 'http://localhost:6287/create_page'}
 
 function saveButtonAccountHistory()
     {window.location.href = 'http://localhost:6287/budget'}
 
-function accountInformationButton(event){
+function accountInformationButton(event, isNew){
     event.preventDefault()
-    window.location.href = `http://localhost:6287/account-history/${event.target.dataset.accountHistoryId}`
+    if (isNew === true) {
+        window.location.href = `http://localhost:6287/account_history/${event.target.dataset.budgetId}`
+    } else {
+        window.location.href = `http://localhost:6287/account_history_information/${event.target.dataset.accountHistoryId}`
+    }
 }
 
 function goToNewAccountHistory() {
