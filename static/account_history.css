@@ -1,0 +1,49 @@
+body {
+    background-color: rgb(159, 111, 83);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+/* This removes the arrows on the number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#account_information {
+    display: flex;
+    padding-left: 10px;
+    margin-left: 30%;
+}
+
+.account_information_input {
+    height: 65px;
+    width: 390px;
+    flex: 1;
+    font-size: 25px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border-style: none;
+}
+.account_information_notes {
+    height: 300px;
+    width: 390px;
+    display: flex;
+    font-size: 30px;
+    margin-top: 20px;
+    border-radius: 20px;
+    border-style: none;
+}
+
+.account_information_button {
+    width: 59px;
+    height: 29px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-style: none;
+    background-color:rgb(226, 217, 201) ;
+    margin-left: 35%;
+    margin-top: 15px;
+}
+button:hover {
+    background-color: rgb(241, 240, 238);
+}

@@ -1,26 +1,34 @@
-{% extends 'base.html' %}
-{% block title %}Account Information{% endblock %}
-
-{% block body %}
+<html>
+    <head>
+        <title>Account Information</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='account_history.css') }}"></link>
+    </head>
+    <body>  
+    {% extends 'base.html' %}
+    {% block title %}Account Information{% endblock %}
+    
+    {% block body %}
     <div id="account_information">
         {% if budget_id %}
-            <form method="POST" action="/account_information/{{ budget_id }}">
-                <input type="text" name="account_name" placeholder="Please insitution name">
-                <input type="number" name="account_number" placeholder="Plase enter account number">
-                <input type="number" name="account_phone_number" placeholder="Enter phone number (Optional)">
-                <input type="text" name="account_address" placeholder="Enter address (Optional)">
-                <input type="text" name="account_notes" placeholder="Enter notes">
-                <button type="submit" name="submit_button_account_information">Save</button>
-            </form>
+        <form method="POST" action="/account_information/{{ budget_id }}">
+            <input class="account_information_input" type="text" name="account_name" placeholder="Please insitution name"/>
+            <input class="account_information_input" type="number" name="account_number" placeholder="Plase enter account number"/>
+            <input class="account_information_input" type="number" name="account_phone_number" placeholder="Enter phone number (Optional)"/>
+            <input class="account_information_input" type="text" name="account_address" placeholder="Enter address (Optional)"/>
+            <textarea class="account_information_notes" type="text" name="account_notes" placeholder="Enter notes"/>
+            <button class="account_information_button" type="submit" name="submit_button_account_information">Save</button>
+        </form>
         {% else %}
-            <form method="POST" action="/account_update/{{ history_list.history_id }}">
-                <input type="text" name="account_name" value="{{ history_list.name }}" placeholder="Please insitution name">
-                <input type="number" name="account_number" value="{{ history_list.account_number }}" placeholder="Plase enter account number">
-                <input type="number" name="account_phone_number" value="{{ history_list.phone_number|default('') }}" placeholder="Enter phone number (Optional)">
-                <input type="text" name="account_address" value="{{ history_list.address|default('') }}" placeholder="Enter address (Optional)">
-                <input type="text" name="account_notes" value="{{ history_list.notes|default('') }}" placeholder="Enter notes">
-                <button type="submit" name="submit_button_account_information">Save</button>
-            </form>
+        <form method="POST" action="/account_update/{{ history_list.history_id }}">
+            <input class="account_information_input" type="text" name="account_name" value="{{ history_list.name }}" placeholder="Please insitution name"/>
+            <input class="account_information_input" type="number" name="account_number" value="{{ history_list.account_number }}" placeholder="Plase enter account number"/>
+            <input class="account_information_input" type="number" name="account_phone_number" value="{{ history_list.phone_number|default('') }}" placeholder="Enter phone number (Optional)"/>
+            <input class="account_information_input" type="text" name="account_address" value="{{ history_list.address|default('') }}" placeholder="Enter address (Optional)"/>
+            <textarea class="account_information_notes" type="text" name="account_notes" value="{{ history_list.notes|default('') }}" placeholder="Enter notes"></textarea>
+            <button class="account_information_button" type="submit" name="submit_button_account_information">Save</button>
+        </form>
         {% endif %}
     </div>        
-{% endblock %}
+    {% endblock %}
+    </body>    
+</html>        

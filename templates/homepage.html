@@ -1,28 +1,31 @@
+<html>
+  <body>
+    <title>Homepage</title>
+    <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='home-page.css') }}"></link>
+    </head>  
+
 {% extends 'base.html' %}
 {% block title %}Movie Ratings Home{% endblock %}
 
 {% block body %}
-  <img src="">
-
-   <ul>
-    <a href="/">How it Works</a>
-    <a href="/">Contact</a>
-  </ul>
   <form action="/users" method="POST">
 </form>
 <div id="login">
-    <h2>Login</h2>
-    <form action="/login" method="POST">
+    <h2 id="login_logo">Login</h2>
+    <form class="login_input" action="/login" method="POST">
        {{ login_form.username.label }}
        {{ login_form.username(id="username") }}
        {{ login_form.password.label }}
-       {{ login_form.password(id="password") }}
-       {{ login_form.remember_me.label }}
+       {{ login_form.password(type="password", id="password") }}
+       {{ login_form.remember_me.label(id="remember_me") }}
        {{ login_form.remember_me }}
-       {{ login_form.submit }}
+       {{ login_form.submit(id="login_button") }}
        <button id="create-account" type="button" onclick="registrationButton()">Register</button>  
     </form>        
 </div> 
 
          
 {% endblock %}
+  </body>
+</html>

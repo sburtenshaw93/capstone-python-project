@@ -1,45 +1,52 @@
 <html>
     <head> 
         <title>Budget</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='budget-page.css') }}"></link>
     </head>
     <body>
 {% extends 'base.html' %}
 {% block title %}Budget{% endblock %}
 
 {% block body %}
+<div class="navbar">
+    <form action="{{ url_for("logout") }}" method="POST">
+        <button class="logout_button" type="submit">Logout</button>
+    </form>    
+</div>  
 <div id="budget">
     <div id="budget">
-        <h1>Budget App</h1>
         <form id="budget-form" method="POST" action="/calculate_total">
             <div id="income-fields">
                 {% if budget_list | length > 0 %}
                    {% for budget in budget_list %}
                         {% if budget.type == "income" %}
-                            <label for="income-loop">Income:</label>
-                            <input type="text" name="user_input_{{ loop.index }}" value="{{ budget.user_income_input or '' }}" placeholder="Please enter name">
-                            <input type="number" name="income_{{ loop.index }}" class="income-input" value="{{ budget.income or '' }}" placeholder="Please enter amount">
-                            <button type="button" name="delete_income_{{ loop.index }}" onclick="deleteBudget(event)" data-budget-id="{{ budget.budget_id }}">Delete</button>
+                            <h1 class="budget_text">Income</h1>
+                            <label class="income_input" for="income-loop"></label>
+                            <input class="income_input" type="text" name="user_input_{{ loop.index }}" value="{{ budget.user_income_input or '' }}" placeholder="Please enter name">
+                            <input class="income_input" type="number" name="income_{{ loop.index }}" class="income-input" value="{{ budget.income or '' }}" placeholder="Please enter amount">
+                            <button class="income_button" type="button" name="delete_income_{{ loop.index }}" onclick="deleteBudget(event)" data-budget-id="{{ budget.budget_id }}">Delete</button>
                         {% endif %}
                    {% endfor %}
                 {% else %}
-                    <label for="income"> Income:</label>
-                    <input type="text" name="new_user_input" value="{{ user_input or '' }}" placeholder="Please enter name">
-                    <input type="number" name="new-income" class="income-input" value="{{ income or '' }}" placeholder="Please enter amount">
+                    <label class="income_input" for="income"> Income:</label>
+                    <input class="income_input" type="text" name="new_user_input" value="{{ user_input or '' }}" placeholder="Please enter name">
+                    <input class="income_input" type="number" name="new-income" class="income-input" value="{{ income or '' }}" placeholder="Please enter amount">
                 {% endif %}
             </div>
-            <button type="button" onclick="addIncomeField()">Add</button>
+            <button class="income_button" type="button" onclick="addIncomeField()">Add</button>
             <div id="expense-fields">
+                <h1 class="budget_text">Monthly Expenses</h1>
                 {% if budget_list | length > 0 %}
                     {% for expense_loop in budget_list %}
                         {% if expense_loop.type == 'expense' %}
-                            <label for="expense">Expense:</label>
-                            <input type="text" name="user_expense_input_{{ loop.index }}" value="{{ expense_loop.user_expense_input or '' }}" placeholder="Please enter name">
-                            <input type="number" name="expense_{{ loop.index }}" class="expense-input" value="{{ expense_loop.expense or '' }}" placeholder="Please enter amount">
-                            <button type="button" onclick="deleteBudget(event)" data-budget-id="{{ expense_loop.budget_id }}">Delete</button>
+                            <label for="expense"></label>
+                            <input class="expense_input" type="text" name="user_expense_input_{{ loop.index }}" value="{{ expense_loop.user_expense_input or '' }}" placeholder="Please enter name">
+                            <input class="expense_input" type="number" name="expense_{{ loop.index }}" class="expense-input" value="{{ expense_loop.expense or '' }}" placeholder="Please enter amount">
+                            <button class="expense_button" type="button" onclick="deleteBudget(event)" data-budget-id="{{ expense_loop.budget_id }}">Delete</button>
                             {% if expense_loop.account_history %}
-                                <button type="button" data-account-history-id="{{ expense_loop.account_history }}" onclick="accountInformationButton(event)">View Account Information</button>
+                                <button class="expense_button" type="button" data-account-history-id="{{ expense_loop.account_history }}" onclick="accountInformationButton(event)">View Account Information</button>
                             {% else %}
-                                <button type="button" data-budget-id="{{ expense_loop.budget_id }}" onclick="accountInformationButton(event, true)">Create Account Information</button>
+                                <button class="expense_button" type="button" data-budget-id="{{ expense_loop.budget_id }}" onclick="accountInformationButton(event, true)">Create Account Information</button>
                             {% endif %}
                         {% endif %}    
                     {% endfor %}
@@ -51,19 +58,15 @@
                 {% endif %}
             </div>
             <div id="user_input_expenses">    
-                <button type="button" onclick="addExpenseField()">Add</button>
+                <button class="expense_button" type="button" onclick="addExpenseField()">Add</button>
             </div>
             <div id="remaining_balance">
-                <h2>Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
-                <button type="submit">Calculate Remaining Balance</button>
+                <h2 class="budget_text">Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
+                <button class="calculate_button" type="submit">Calculate Remaining Balance</button>
             </div>    
         </form>
     </div>
-    <div class="navbar">
-        <form action="{{ url_for("logout") }}" method="POST">
-            <button type="submit">Logout</button>
-        </form>    
-    </div>               
+                 
 </div> 
 
 {% endblock %}

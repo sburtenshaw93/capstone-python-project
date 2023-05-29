@@ -1,0 +1,73 @@
+body {
+    background-color: rgb(35, 33, 31);
+    font-family: 'Noto Sans JP', sans-serif;
+    
+}
+
+#login {
+    background-color: rgb(226, 217, 201);
+    background-image: url("https://images.unsplash.com/photo-1566305977571-5666677c6e98?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Z3JheSUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=700&q=60");
+    height: 75%;
+    width: 50%;
+    margin-left: 29%;
+    border-radius: 20px;
+    margin-top: 30px;
+    font-size: 28px;
+}
+#username {
+    width: 275px;
+    height: 40px;
+    border-radius: 10px;
+    border-style: none;
+    font-size: 20px;
+}
+
+#password {
+    width: 275px;
+    height: 40px;
+    border-radius: 10px;
+    border-style: none;
+    font-size: 20px;
+}
+
+.login_input {
+    margin-left: 20%;
+    width: 40%;
+    height: 24%;
+}
+
+#create-account {
+    height: 35px;
+    width: 85px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-style: none;
+    margin-top: 20px;
+    margin-left: 79px;
+}
+
+#logo {
+    height: 10%;
+    width: 10%;
+    border-radius: 18px;
+}
+
+#login_logo {
+    font-size: 45px;
+    margin-left: 40%;
+}
+
+#login_button {
+    height: 35px;
+    width: 85px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-style: none;
+    margin-left: 80px;
+    margin-bottom: 10px;
+}
+#remember_me {
+    font-size: 20px;
+    margin-bottom: 26px;
+
+}

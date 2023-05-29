@@ -1,28 +1,36 @@
+<html>
+    <head>
+        <title>Registration</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='create-page.css') }}"></link>
+      </head> 
+<body>
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 
 {% block body %}
 
-<h2>Create an Account</h2>
+
 <form action="/users" method="POST">
     <div class="create-account">
         <div class="form-container">
-            <h1>Registration</h1>
-            <form action="{{ url_for('create_page') }}" method="POST">
-                {{ registration_form.username.label }}
-                {{ registration_form.username(id="username") }}
-                {{ registration_form.email.label }}
-                {{ registration_form.email(id="email") }}
-                {{ registration_form.confirm_email.label }}
-                {{ registration_form.confirm_email(id="email") }}
-                {{ registration_form.password.label }}
-                {{ registration_form.password(id="password") }}
-                {{ registration_form.confirm_password.label }}
-                {{ registration_form.confirm_password(id="password") }}
-                {{ registration_form.phone_number.label }}
+            <h1 id="registration_title">Registration</h1>
+            <form class="registration_form" action="{{ url_for('create_page') }}" method="POST">
+                {{ registration_form.username.label(class="username") }}
+                {{ registration_form.username(class="username") }}
+                {{ registration_form.email.label(class="email") }}
+                {{ registration_form.email(class="email") }}
+                {{ registration_form.confirm_email.label(class="email") }}
+                {{ registration_form.confirm_email(class="email") }}
+                {{ registration_form.password.label(class="password") }}
+                {{ registration_form.password(type="password", class="password") }}
+                {{ registration_form.confirm_password.label(class="password") }}
+                {{ registration_form.confirm_password(class="password") }}
+                {{ registration_form.phone_number.label(id="phone_number") }}
                 {{ registration_form.phone_number(id="phone_number") }}
-                {{ registration_form.submit }}
+                {{ registration_form.submit(id="registration_button") }}
         </div>
     </div>
 
 {% endblock %}  
+    </body>
+</html>

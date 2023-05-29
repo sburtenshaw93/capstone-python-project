@@ -1,0 +1,74 @@
+body {
+    background-color: rgb(226, 217, 201);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+/* This removes the arrows on the number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.income_input {
+    border-radius: 15px;
+    height: 50px;
+    width: 250px;
+    font-size: 23px;
+    color: rgb(15, 12, 3);
+    border-style: hidden;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.income_button {
+    background-color: transparent;
+    font-size: 15px;
+    border-radius: 10px;
+    border-style: hidden;
+    margin-top: 12px;
+}
+button:hover {
+    background-color: rgb(201, 173, 145);
+}
+
+.expense_input {
+    border-radius: 15px;
+    height: 50px;
+    width: 200px;
+    font-size: 23px;
+    color: rgb(23, 20, 6);
+    border-style: hidden;
+    margin-top: 17px;
+    margin-left: 5px;
+    float: left;
+    width: 33.33%;
+}
+
+.expense_button {
+    background-color: transparent;
+    font-size: 15px;
+    border-radius: 10px;
+    border-style: hidden;
+    margin-top: 13px;
+}
+
+.calculate_button {
+    height: 55px;
+    width: 190px;
+    font-size: 15px;
+    border-radius: 10px;
+    background-color: rgb(241, 240, 238);
+    border-style: none;
+    margin-left: 25%;
+}
+
+.logout_button {
+    margin-left: 90%;
+    border-style: none;
+    border-radius: 10px;
+    font-size: 11px;
+    background-color: rgb(241, 240, 238);
+}
+
+.budget_text {
+    margin-left: 13px;
+}
