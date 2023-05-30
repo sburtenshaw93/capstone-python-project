@@ -18,5 +18,5 @@ Future Features:
 - User can calculate how much interest they’re accruing on their savings account and see other institution their rates and find the best place to gain more for their savings. 
 
 Tech:
-- Frontend: HTML, CSS, Javascript, Material UI
+- Frontend: HTML, CSS, Javascript,
 - Backend: Python, Flask, SQLAlchemy, PostfresSQL
