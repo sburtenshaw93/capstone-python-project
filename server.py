@@ -7,9 +7,11 @@ import crud
 from jinja2 import StrictUndefined
 from model import connect_to_db, db, User
 import os
-
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
+csrf = CSRFProtect()
+csrf.init_app(app)
 cors = CORS(app)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.jinja_env.undefined = StrictUndefined
@@ -48,8 +50,9 @@ def create_page():
     
 
 @app.route("/users", methods=["POST"])
+@csrf.exempt
 def register_user():
-
+    
     username = request.form.get("username")
     password = request.form.get("password")
     email = request.form.get("email")
@@ -77,7 +80,6 @@ def login():
         remember_me = form.remember_me.data
     
         user = User.query.filter_by(username=username).first()
-    
     if user and user.check_password(password):
             login_user(user, remember=remember_me, duration=timedelta(days=30))
             flash("You logged in successfully.", "success")
@@ -88,6 +90,7 @@ def login():
     return redirect("/")
 
 @app.route("/logout", methods=["GET", "POST"])
+@csrf.exempt
 def logout():
     session.clear()
     return redirect(url_for("homepage"))   
@@ -126,6 +129,7 @@ def budget():
                            )
 
 @app.route('/calculate_total', methods=['POST'])
+@csrf.exempt
 def calculate_total():
     new_incomes = request.form.getlist('new-income')
     new_user_income_inputs = request.form.getlist('new_user_input')
@@ -149,11 +153,13 @@ def delete_budget(budget_id):
 # account history-------------------------------
 
 @app.route("/account_history/<budget_id>", methods=["GET"])
+@csrf.exempt
 def account_history(budget_id):
     
     return render_template("/account_history.html", history_list=[], budget_id=budget_id)
 
 @app.route("/account_history_information/<account_history_id>", methods=["GET"])
+@csrf.exempt
 def account_history_information(account_history_id):
     
     history_list = crud.get_account_history_by_id(account_history_id)
@@ -161,6 +167,7 @@ def account_history_information(account_history_id):
     return render_template("/account_history.html", history_list=history_list, budget_id=None)
 
 @app.route("/account_information/<budget_id>", methods=["POST"])
+@csrf.exempt
 def create_account_history(budget_id):
     name = request.form.get("account_name")
     account_number = request.form.get("account_number")
@@ -172,6 +179,7 @@ def create_account_history(budget_id):
     return redirect(url_for("budget"))
 
 @app.route("/account_update/<account_history>", methods=["POST"])
+@csrf.exempt
 def update_account_history(account_history):
     name = request.form.get("account_name")
     account_number = request.form.get("account_number")

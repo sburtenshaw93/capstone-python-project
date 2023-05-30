@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, EqualTo 
 
 class LoginForm(FlaskForm):
+    csrf_token = StringField()
     username = StringField("Username", validators=[DataRequired()])
     password = StringField("Password", validators=[DataRequired()])
     remember_me = BooleanField("Remember Me")

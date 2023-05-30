@@ -12,12 +12,14 @@ class User(db.Model):
     password = db.Column(db.String)
     username = db.Column(db.Text, unique=True)
     phone_number = db.Column(db.Integer)
+    is_active = db.Column(db.Boolean)
     
     def __init__(self, username, password, email, phone_number):
         self.username = username
         self.password = password
         self.email = email
         self.phone_number = phone_number
+        self.is_active = True
     def check_password(self, password):
         return password == self.password
     def get_id(self):

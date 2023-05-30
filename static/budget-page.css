@@ -8,9 +8,13 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.income-fields {
+    column-count: 2;
+    column-gap: 20px;
+}
 
 #expense-fields {
-    height: 45%;
+    height: 54%;
 }
 
 .income_input {
@@ -22,6 +26,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border-style: hidden;
     margin-top: 10px;
     margin-left: 5px;
+    
 }
 
 .income_button {
@@ -30,6 +35,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 10px;
     border-style: hidden;
     margin-top: 12px;
+    float: left;
 }
 button:hover {
     background-color: rgb(201, 173, 145);

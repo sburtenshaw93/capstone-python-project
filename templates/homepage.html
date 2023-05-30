@@ -14,6 +14,7 @@
 <div id="login">
     <h2 id="login_logo">Login</h2>
     <form class="login_input" action="/login" method="POST">
+       {{ login_form.csrf_token }}
        {{ login_form.username.label }}
        {{ login_form.username(id="username") }}
        {{ login_form.password.label }}
