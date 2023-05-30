@@ -5,22 +5,19 @@ function deleteBudget(event) {
 }
 function addIncomeField() {
     const incomeFields = document.getElementById('income-fields');
-    const newLabel = document.createElement('label');
-    newLabel.innerHTML = 'Income:';
-    incomeFields.appendChild(newLabel)
     const newTextInput = document.createElement('input');
     newTextInput.type = 'text';
     newTextInput.name = 'new_user_input';
-    newTextInput.className = 'user_input';
+    newTextInput.className = 'income_input';
     incomeFields.appendChild(newTextInput)
     const newInput = document.createElement('input');
     newInput.type = 'number';
     newInput.name = 'new-income';
-    newInput.className = 'income-input';
+    newInput.className = 'income_input';
     incomeFields.appendChild(newInput);
     const incomeDeleteButton = document.createElement('button');
     incomeDeleteButton.name = 'income-delete-button';
-    incomeDeleteButton.className = 'delete-button';
+    incomeDeleteButton.className = 'income_button';
     incomeDeleteButton.innerHTML = "Delete"
     incomeDeleteButton.onclick=deleteIncome
     incomeFields.appendChild(incomeDeleteButton);
@@ -29,17 +26,17 @@ function addIncomeField() {
 function addExpenseField(event) {
     const expenseFields = document.getElementById('expense-fields');
     const newLabel = document.createElement('label');
-    newLabel.innerHTML = 'Expense:';
+    newLabel.innerHTML;
     expenseFields.appendChild(newLabel)
     const newExpenseTextInput = document.createElement('input');
     newExpenseTextInput.type = 'text';
     newExpenseTextInput.name = 'new_expense_user_input';
-    newExpenseTextInput.className = 'expense_user_input';
+    newExpenseTextInput.className = 'expense_input';
     expenseFields.appendChild(newExpenseTextInput)
     const newInput = document.createElement('input');
     newInput.type = 'number';
     newInput.name = 'new-expense';
-    newInput.className = 'expense-input';
+    newInput.className = 'expense_input';
     expenseFields.appendChild(newInput);
     const expenseDeleteButton = document.createElement('button');
     expenseDeleteButton.name = 'expense-delete-button';

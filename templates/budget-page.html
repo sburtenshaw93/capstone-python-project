@@ -20,7 +20,7 @@
                 {% if budget_list | length > 0 %}
                    {% for budget in budget_list %}
                         {% if budget.type == "income" %}
-                            <h1 class="budget_text">Income</h1>
+                        <h1 class="budget_text">Income</h1>
                             <label class="income_input" for="income-loop"></label>
                             <input class="income_input" type="text" name="user_input_{{ loop.index }}" value="{{ budget.user_income_input or '' }}" placeholder="Please enter name">
                             <input class="income_input" type="number" name="income_{{ loop.index }}" class="income-input" value="{{ budget.income or '' }}" placeholder="Please enter amount">
@@ -28,7 +28,7 @@
                         {% endif %}
                    {% endfor %}
                 {% else %}
-                    <label class="income_input" for="income"> Income:</label>
+                    <label class="income_input" for="income"></label>
                     <input class="income_input" type="text" name="new_user_input" value="{{ user_input or '' }}" placeholder="Please enter name">
                     <input class="income_input" type="number" name="new-income" class="income-input" value="{{ income or '' }}" placeholder="Please enter amount">
                 {% endif %}
@@ -51,15 +51,13 @@
                         {% endif %}    
                     {% endfor %}
                 {% else %}
-                    <label for="expense">Expense:</label>
-                    <input type="text" name="new_expense_user_input" value="{{ user_expense_input or '' }}" placeholder="Please enter name">
-                    <input type="number" name="new-expense" class="expense-input" value="{{ expense or '' }}" placeholder="Please enter amount">
+                    <label for="expense"></label>
+                    <input class="new_expense_input" type="text" name="new_expense_user_input" value="{{ user_expense_input or '' }}" placeholder="Please enter name">
+                    <input class="new_expense_input" type="number" name="new-expense" class="expense-input" value="{{ expense or '' }}" placeholder="Please enter amount">
                     
                 {% endif %}
             </div>
-            <div id="user_input_expenses">    
-                <button class="expense_button" type="button" onclick="addExpenseField()">Add</button>
-            </div>
+            <button class="expense_button" type="button" onclick="addExpenseField()">Add</button>
             <div id="remaining_balance">
                 <h2 class="budget_text">Remaining Balance: $<span id="remaining_total">{{ remaining_balance }}</span></h2>
                 <button class="calculate_button" type="submit">Calculate Remaining Balance</button>

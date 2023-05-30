@@ -8,6 +8,11 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+#expense-fields {
+    height: 45%;
+}
+
 .income_input {
     border-radius: 15px;
     height: 50px;
@@ -31,6 +36,20 @@ button:hover {
 }
 
 .expense_input {
+    border-radius: 15px;
+    height: 50px;
+    width: 200px;
+    font-size: 23px;
+    color: rgb(23, 20, 6);
+    border-style: hidden;
+    margin-top: 17px;
+    margin-left: 5px;
+    float: left;
+    width: 33.33%;
+
+}
+
+.new_expense_input {
     border-radius: 15px;
     height: 50px;
     width: 200px;
@@ -71,4 +90,8 @@ button:hover {
 
 .budget_text {
     margin-left: 13px;
+    margin-top: 54px;
+}
+#remaining_balance {
+    margin-top: 100px;
 }
